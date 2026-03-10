@@ -9,8 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// ✅ Uses Atlas in production, local in development
-const uri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017";
+const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
 
 const dbName = "PHC-Form";
@@ -23,27 +22,27 @@ async function connectDB() {
     const db = client.db(dbName);
     collection = db.collection("registrations");
   } catch (err) {
-    console.error("❌ MongoDB connection error:", err);
-    process.exit(1);
+    console.error("❌ MongoDB connection error:", err.message); // ✅ removed process.exit(1)
   }
 }
 
 connectDB();
 
-// ✅ Root route so Vercel doesn't crash on GET /
 app.get("/", (req, res) => {
   res.json({ status: "Backend is running ✅" });
 });
 
-// Store form submission
 app.post("/phc-form", async (req, res) => {
   try {
+    if (!collection) {
+      await connectDB(); // ✅ retry connection if not connected
+    }
     console.log("📥 Received:", req.body);
     const result = await collection.insertOne(req.body);
     res.json({ success: true, insertedId: result.insertedId });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: "Failed to register" });
+    res.status(500).json({ success: false, message: err.message }); // ✅ show actual error
   }
 });
 
