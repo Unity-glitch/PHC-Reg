@@ -10,6 +10,7 @@
       rel="stylesheet"
     />
   </head>
+
   <body>
     <div class="preloader">
       <img class="" src="../images/PHC-logo.png" />
@@ -21,7 +22,7 @@
           <p>Register here to be part of us</p>
         </div>
         <div class="bottom">
-          <form id="registrationForm" class="form__container" action="">
+          <form id="registrationForm" class="form__container">
             <div class="inputs">
               <input
                 name="fullName"
@@ -90,6 +91,39 @@
       </div>
     </div>
   </body>
+  <script>
+    document
+      .getElementById("registrationForm")
+      .addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+          const response = await fetch(
+            "https://phc-reg-wqfa.vercel.app/phc-form",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            },
+          );
+
+          if (response.ok) {
+            alert("Form submitted successfully!");
+            this.reset();
+          } else {
+            const error = await response.json();
+            alert(`Submission failed: ${error.message || response.statusText}`);
+          }
+        } catch (err) {
+          alert(`Network error: ${err.message}`);
+        }
+      });
+  </script>
   <script src="../Home/preloader.js"></script>
   <script src="../Home/animation.js"></script>
   <script src="../Home/mongoDB.js"></script>

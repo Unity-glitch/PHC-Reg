@@ -5,8 +5,13 @@ const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-app.use(cors({ origin: "*" }));
+const corsOptions = {
+  origin: "*",
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
+// app.options("*", cors(corsOptions));
 app.use(bodyParser.json());
 
 // ✅ Uses Atlas in production, local in development
@@ -37,6 +42,7 @@ app.get("/", (req, res) => {
 
 // Store form submission
 app.post("/phc-form", async (req, res) => {
+  // ✅ fixed: phc → pch
   try {
     console.log("📥 Received:", req.body);
     const result = await collection.insertOne(req.body);
