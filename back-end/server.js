@@ -6,12 +6,12 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const corsOptions = {
-  origin: "https://phc-reg-wqfa.vercel.app",
+  origin: "*",
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 app.use(cors(corsOptions));
-// app.options("*", cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(bodyParser.json());
 
 // ✅ Uses Atlas in production, local in development
