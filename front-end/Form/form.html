@@ -326,9 +326,15 @@
               <input
                 name="dob"
                 type="text"
-                placeholder="Birthday"
-                onfocus="this.type = 'date'"
-                onblur="if (!this.value) this.type = 'text';"
+                placeholder="Birthday (DD/MM)"
+                pattern="^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])$"
+                maxlength="5"
+                oninput="
+                  this.value = this.value.replace(/[^0-9\/]/g, '');
+                  if (this.value.length === 2 && !this.value.includes('/')) {
+                    this.value += '/';
+                  }
+                "
                 required
               />
               <input
@@ -345,6 +351,13 @@
                 <option value="Community 3">Community 3</option>
                 <option value="Community 4">Community 4</option>
                 <option value="Integration">Integration</option>
+              </select>
+              <select name="waterBaptism" class="gender__select" required>
+                <option value="" disabled selected>
+                  Water Baptism by Emerson
+                </option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
               </select>
               <button type="submit" class="sub__btn">Submit</button>
             </div>
