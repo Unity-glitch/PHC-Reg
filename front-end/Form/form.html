@@ -326,7 +326,7 @@
               <input
                 name="dob"
                 type="text"
-                placeholder="Birthday (DD/MM)"
+                placeholder="Birthday (DD-mm)"
                 pattern="^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])$"
                 maxlength="5"
                 oninput="
@@ -340,9 +340,13 @@
               <input
                 name="weddingAnniversary"
                 type="text"
-                placeholder="Wedding Anniversary"
+                placeholder="Wedding Anniversary (DD-mm-YYYY)"
+                pattern="\d{2}-\d{2}-\d{4}"
                 onfocus="this.type = 'date'"
-                onblur="if (!this.value) this.type = 'text';"
+                onblur="
+                  if (!this.value) this.type = 'text';
+                  else this.value = formatDate(this.value);
+                "
               />
               <select name="community" class="gender__select" required>
                 <option value="" disabled selected>Community</option>
