@@ -565,9 +565,11 @@
                 return;
               }
               if (yearListEl) yearListEl.style.outline = "";
-              input.value = `${selDay} / ${selMonth} / ${selYear}`;
+              const monthName = MONTHS[parseInt(selMonth) - 1].slice(0, 3);
+              input.value = `${selDay}-${monthName}-${selYear}`;
             } else {
-              input.value = `${selDay} / ${selMonth}`;
+              const monthName = MONTHS[parseInt(selMonth) - 1].slice(0, 3);
+              input.value = `${selDay}-${monthName}`;
             }
 
             picker.classList.remove("open");
