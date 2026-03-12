@@ -191,6 +191,7 @@
   background-color: #000000d1;
   color: #fff;
   transition: opacity 0.5s;
+  z-index: 10;
 }
 .preloader img {
   width: 200px;

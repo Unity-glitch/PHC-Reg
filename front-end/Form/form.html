@@ -503,7 +503,7 @@
 
           // Build months
           const months = MONTHS.map((m, i) => ({
-            label: m,
+            label: m.slice(0, 3),
             value: pad(i + 1),
           }));
 
